@@ -20,13 +20,13 @@ async function init() {
             name: "Tshirt",
             price: 10,
             description: "Super Comfortable Tshirt",
-            image: "https://cdn.pixabay.com/photo/2017/09/03/14/41/mock-up-2710535_960_720.jpg",
+            image: "https://www.supreme-creations.in/wp-content/uploads/2022/05/wholesale-pre-printed-t-shirt-by-supreme-creations-400x400.jpg",
         },
         {
             name: "Shoes",
             price: 20,
             description: "Light weight shoes",
-            image: "https://assets.solesense.com/en/images/products/500/puma-j-cole-x-rs-dreamer-time-square-194639-03_1.jpg",
+            image: "https://imgs3.freeup.app/400x400/6ff96e63dc6bd4f5a1bfc1da75b52911.jpg",
         },
         {
             name: "Jeans",
