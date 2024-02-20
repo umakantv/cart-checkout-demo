@@ -1,6 +1,6 @@
 const { Product, CartItem } = require("../models/index.js");
 
-const addItemToCart = async ({ productId, quantity }) => {
+const addItemToCart = async ({ productId, quantity, customer }) => {
   const product = await Product.findByPk(productId);
 
   if (!product) {
@@ -10,6 +10,7 @@ const addItemToCart = async ({ productId, quantity }) => {
   let cartItem = await CartItem.findOne({
     where: {
       productId,
+      customerId: customer.id,
     },
   });
 
@@ -27,21 +28,26 @@ const addItemToCart = async ({ productId, quantity }) => {
       productId,
       quantity,
       amount: quantity * product.price,
+      customerId: customer.id,
     });
   }
 
   return cartItem;
 };
 
-const getCartItems = async () => {
+const getCartItems = async ({ customer }) => {
   return CartItem.findAll({
+    where: {
+      customerId: customer.id,
+    },
     include: Product,
   });
 };
 
-const removeCartItem = async (productId) => {
+const removeCartItem = async ({ productId, customer }) => {
   const cartItem = await CartItem.findOne({
     productId,
+    customerId: customer.id,
   });
 
   if (!cartItem) {

@@ -3,50 +3,49 @@ const { randomUUID } = require("crypto");
 const qs = require('qs');
 
 var username = process.env.JUSPAY_API_KEY; // Juspay API secret key
-var password = "";
+var password = ""; // Password is empty
 var credentials = btoa(username + ":" + password);
 var basicAuth = "Basic " + credentials;
 
-async function createPaymentOrder(amount) {
+async function createPaymentOrder(order, customer) {
   const orderId = randomUUID();
-
-  console.log(basicAuth, orderId, amount);
 
   const data = qs.stringify({
     order_id: orderId,
-    amount: amount,
+    amount: order.amount,
     currency: "INR",
 
-    customer_id: "guest_user_101",
-    customer_email: "customer@gmail.com",
-    customer_phone: "9988665522",
-    product_id: "prod-141833",
+    customer_id: customer.id,
+    customer_email: customer.email,
+    customer_phone: customer.phone,
+    product_id: order.id,
+
     return_url: "http://localhost:3000/payment_result", // juspay: status = CHARGED, razorpay: status = paid
     description: "Generate Order",
 
-    billing_address_first_name: "Juspay",
-    billing_address_last_name: "Technologies",
-    billing_address_line1: "Girija Building",
-    billing_address_line2: "Ganapathi Temple Road",
-    billing_address_line3: "8th Block, Koramangala",
-    billing_address_city: "Bengaluru",
-    billing_address_state: "Karnataka",
-    billing_address_country: "India",
-    billing_address_postal_code: "560095",
-    billing_address_phone: "9988775566",
-    billing_address_country_code_iso: "IND",
+    billing_address_first_name: order.billing_address_first_name,
+    billing_address_last_name: order.billing_address_first_name,
+    billing_address_line1: order.billing_address_first_name,
+    billing_address_line2: order.billing_address_first_name,
+    billing_address_line3: order.billing_address_first_name,
+    billing_address_city: order.billing_address_first_name,
+    billing_address_state: order.billing_address_first_name,
+    billing_address_country: order.billing_address_first_name,
+    billing_address_postal_code: order.billing_address_first_name,
+    billing_address_phone: order.billing_address_first_name,
+    billing_address_country_code_iso: order.billing_address_first_name,
 
-    shipping_address_first_name: "Juspay",
-    shipping_address_last_name: "Technologies",
-    shipping_address_line1: "Girija Building",
-    shipping_address_line2: "Ganapathi Temple Road",
-    shipping_address_line3: "8th Block, Koramangala",
-    shipping_address_city: "Bengaluru",
-    shipping_address_state: "Karnataka",
-    shipping_address_postal_code: "560095",
-    shipping_address_phone: "9962881912",
-    shipping_address_country_code_iso: "IND",
-    shipping_address_country: "India",
+    shipping_address_first_name: order.shipping_address_first_name,
+    shipping_address_last_name: order.shipping_address_last_name,
+    shipping_address_line1: order.shipping_address_line1,
+    shipping_address_line2: order.shipping_address_line2,
+    shipping_address_line3: order.shipping_address_line3,
+    shipping_address_city: order.shipping_address_city,
+    shipping_address_state: order.shipping_address_state,
+    shipping_address_postal_code: order.shipping_address_postal_code,
+    shipping_address_phone: order.shipping_address_phone,
+    shipping_address_country_code_iso: order.shipping_address_country_code_iso,
+    shipping_address_country: order.shipping_address_country,
   });
 
   let requestConfig = {

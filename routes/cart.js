@@ -9,7 +9,7 @@ const CartRouter = require("express").Router();
 
 CartRouter.get("/", async (req, res) => {
   try {
-    const cartItems = await getCartItems();
+    const cartItems = await getCartItems({customer: req.auth});
     res.json({ data: cartItems});
   } catch (error) {
     console.log(error);
@@ -19,7 +19,7 @@ CartRouter.get("/", async (req, res) => {
 
 CartRouter.post("/", async (req, res) => {
   try {
-    const cartItem = await addItemToCart(req.body);
+    const cartItem = await addItemToCart({...req.body, customer: req.auth});
     res.json({ data: cartItem});
   } catch (error) {
     console.log(error);
@@ -29,7 +29,7 @@ CartRouter.post("/", async (req, res) => {
 
 CartRouter.delete("/:productId", async (req, res) => {
   try {
-    await removeCartItem(req.params.productId);
+    await removeCartItem({productId: req.params.productId, customer: req.auth});
     res.json({ message: "Cart item removed" });
   } catch (error) {
     console.log(error);

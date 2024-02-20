@@ -2,11 +2,28 @@ const {
   createPaymentOrder,
   initiateCardPayment,
 } = require("../services/payment");
+const { getCartItems } = require("./cart");
+const { Order, Customer } = require("../models/index");
 
-async function createOrder(amount) {
-  const { orderId } = await createPaymentOrder(amount);
+async function createOrder(customerId, addressDetails) {
+  const customer = await Customer.findByPk(customerId);
+  const cartItems = await getCartItems({ customer });
 
-  console.log("orderId", orderId);
+  const totalAmount = cartItems.reduce(
+    (acc, cartItem) => cartItem.amount + acc,
+    0
+  );
+
+  const order = await Order.create({
+    customerId,
+    amount: totalAmount,
+    ...addressDetails,
+  });
+
+  const { orderId } = await createPaymentOrder(order, customer);
+
+  order.orderId = orderId;
+  await order.save();
 
   return { orderId };
 }
@@ -22,6 +39,8 @@ async function initiatePaymentViaCard(
     cardSecurityCode,
     nameOnCard,
   });
+
+  console.log({ paymentUrl });
 
   return { paymentUrl };
 }
