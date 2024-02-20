@@ -22,17 +22,20 @@ async function createOrder(customerId, addressDetails) {
 
   const { orderId } = await createPaymentOrder(order, customer);
 
-  order.orderId = orderId;
+  order.orderId = orderId; // orderId from payment gateway
   await order.save();
 
   return { orderId };
+  // return order.id;
 }
 
 async function initiatePaymentViaCard(
   orderId,
   { cardNumber, cardExpiryMonth, cardExpiryYear, cardSecurityCode, nameOnCard }
 ) {
-  const { url: paymentUrl } = await initiateCardPayment(orderId, {
+  const order = await Order.findOne({ orderId });
+
+  const { url: paymentUrl } = await initiateCardPayment({orderId: order.orderId, amount: order.amount}, {
     cardNumber,
     cardExpiryMonth,
     cardExpiryYear,

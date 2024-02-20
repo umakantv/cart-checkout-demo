@@ -10,7 +10,7 @@ const Order = sequelize.define(
       primaryKey: true,
     },
     customerId: DataTypes.STRING,
-    orderId: DataTypes.STRING,
+    orderId: DataTypes.STRING, // payment gateway order id
     amount: DataTypes.DECIMAL(10, 2),
 
     billing_address_first_name: DataTypes.STRING,

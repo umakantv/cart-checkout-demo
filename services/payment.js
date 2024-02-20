@@ -74,7 +74,7 @@ async function createPaymentOrder(order, customer) {
 }
 
 async function initiateCardPayment(
-  orderId,
+  {orderId, amount},
   { cardNumber, cardExpiryMonth, cardExpiryYear, cardSecurityCode, nameOnCard }
 ) {
   let data = qs.stringify({
