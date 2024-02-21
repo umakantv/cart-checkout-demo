@@ -8,10 +8,9 @@ var credentials = btoa(username + ":" + password);
 var basicAuth = "Basic " + credentials;
 
 async function createPaymentOrder(order, customer) {
-  const orderId = randomUUID();
 
   const data = qs.stringify({
-    order_id: orderId,
+    order_id: randomUUID(),
     amount: order.amount,
     currency: "INR",
 
@@ -63,14 +62,14 @@ async function createPaymentOrder(order, customer) {
 
   try {
     
-    await axios.request(requestConfig);
+    const res = await axios.request(requestConfig);
+    console.log("Response", res);
+    return {orderId: res.data.order_id};
 
   } catch(err) {
     console.log(JSON.stringify(err.response.data, null, 2));
     throw new Error('Error while creating payment order');
   }
-
-  return { orderId };
 }
 
 async function initiateCardPayment(
