@@ -63,7 +63,7 @@ async function createPaymentOrder(order, customer) {
   try {
     
     const res = await axios.request(requestConfig);
-    console.log("Response", res);
+    console.log("Response", res.data);
     return {orderId: res.data.order_id};
 
   } catch(err) {
